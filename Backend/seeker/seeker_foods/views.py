@@ -1,11 +1,13 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from .serializers import ResturentsSerializer
+from .models import Restaurants
 
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import status, generics
 from rest_framework.decorators import api_view
 
 
-@api_view(['GET'])
-def index(request):
-    return Response({"greating" : "Hello World!"}, status=status.HTTP_200_OK)
+class HomeView(generics.ListAPIView):
+    queryset = Restaurants.objects.all()
+    serializer_class = ResturentsSerializer

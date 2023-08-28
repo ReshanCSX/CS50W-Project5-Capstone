@@ -1,26 +1,29 @@
 import { useState, useEffect } from "react";
+import Card from './components/Card'
 
 const URL = "http://127.0.0.1:8000";
 
 export default function App() {
 
-  const [greeting, setGreeting] = useState("")
+  const [cardInfo, setCardInfo] = useState([])
 
   useEffect(() => {
     const fetchData = async () => {
       const request = await fetch(`${URL}`)
       const response = await request.json();
 
-      setGreeting(response)
+      setCardInfo(response)
     }
 
         fetchData();
   },[])
 
   
+  const cards = cardInfo.map(info => <Card key={info.id} name={info.name} rating={info.rating}/>)
+
   return (
     <main>
-     <h1>{greeting.greating}</h1>
+     {cards}
     </main>
   )
 }
