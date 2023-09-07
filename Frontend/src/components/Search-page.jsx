@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import Card from "../components/Card";
+import Card from "./HomePage/Card";
 
 const URL = "http://127.0.0.1:8000";
 
-export default function Home(){
+export default function Search(){
 
     const [cardInfo, setCardInfo] = useState([])
 
