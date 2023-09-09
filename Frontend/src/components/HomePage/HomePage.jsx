@@ -1,15 +1,15 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from "react"
 
-import Card from "./Card";
-import HomeHeader from "./HomeHeader";
-import axios from "axios";
+import Card from "./Card"
+import HomeHeader from "./HomeHeader"
+import axios from "axios"
 
-const URL = "http://127.0.0.1:8000";
+const URL = "http://127.0.0.1:8000"
 
 export default function HomePage(){
 
   const [isSearchOpen, setSearchOpen] = useState(false)
-  // const [searchQuery, setSearchQuery] = useState("")
+  const [searched, setSearched] = useState(false)
   const [searchQuery, setSearchQuery] = useState({name:"", location:""})
   const [cardInfo, setCardInfo] = useState([])
 
@@ -33,8 +33,9 @@ export default function HomePage(){
     event.preventDefault()
     
     try{
-      const response = await axios.get(`${URL}?name=${searchQuery.name}&location=${searchQuery.location}`)
+      const response = await axios.get(`${URL}/search?name=${searchQuery.name}&location=${searchQuery.location}`)
       setCardInfo(response.data)
+      setSearched(true)
     }
     catch(error){
       console.log(error)
@@ -62,7 +63,7 @@ export default function HomePage(){
 
   return (
     <>
-      <section className="p-3 border-b-2 border-green-600">
+      <section className="p-3 border-b-2 border-green-600 flex justify-center">
         <HomeHeader
           {...searchQuery}
 
@@ -77,9 +78,19 @@ export default function HomePage(){
         />
       </section>
 
-      <section className="p-3">
-        <h1 className="pt-3 font-bold text-green-700 text-xl">You might like these</h1>
-        {cards}
+      <section className="p-3 md:max-2xl">
+
+        {!searched && <h1 className="pt-3 font-bold text-green-700 text-xl mb-4">
+          You might like these places
+        </h1>}
+        
+        {cards.length
+          ? <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {cards}
+            </div>
+          : <p className="text-center w-full text-lg text-gray-600 pt-6">No matching results found.</p>
+        }
+
       </section>
     </>
   )

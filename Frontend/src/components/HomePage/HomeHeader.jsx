@@ -4,9 +4,10 @@ export default function HomeHeader(props){
         
         <div>
             <h1 className="font-black text-3xl text-green-700 text-center my-10">Discover the best food in town</h1>
-            <form onSubmit={props.handleSubmit}>
+
+            <form onSubmit={props.handleSubmit} className={`grid grid-cols-1 gap-4 ${props.isSearchOpen && "md:grid-cols-2"}`}>
                 <input
-                className="p-3 w-full border-2 border-green-600 rounded focus:outline-green-900"
+                className="p-3 border-2 border-green-600 rounded focus:outline-green-800"
                 type="text"
                 placeholder="Search for Destinations."
                 value={props.name}
@@ -18,7 +19,7 @@ export default function HomeHeader(props){
                 props.isSearchOpen &&
                 <>
                     <input
-                    className="p-3 border-2 border-green-600 w-full rounded focus:outline-green-900 mt-3"
+                    className="p-3 border-2 border-green-600 rounded focus:outline-green-800"
                     type="text"
                     placeholder="Location"
                     value={props.location}
@@ -27,7 +28,7 @@ export default function HomeHeader(props){
                 
                 </>
                 }
-                <div className="my-4 flex gap-2 justify-center">
+                <div className="my-4 flex gap-2 justify-center md:col-span-2">
                     <button className="bg-green-600 p-2 w-28 text-white rounded hover:bg-green-700">Find</button>
                     
                     { props.isSearchOpen &&
