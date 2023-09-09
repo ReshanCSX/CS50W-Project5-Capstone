@@ -11,16 +11,20 @@ class HomeView(generics.ListAPIView):
     queryset = Restaurants.objects.all()
     serializer_class = ResturentsSerializer
 
+
+class SearchView(generics.ListAPIView):
+    
+    serializer_class = ResturentsSerializer
+
     def get_queryset(self):
-        queryset = super().get_queryset()
+
+        queryset = Restaurants.objects.all()
 
         name = self.request.query_params.get('name', None)
         location = self.request.query_params.get('location', None)
 
-        if name:
-            queryset = queryset.filter(name=name.title())
-        if location:
-            queryset = queryset.filter(city=location.title())
+        if name or location:
+            queryset = Restaurants.objects.filter(name__contains=name, city__contains=location)
 
         return queryset
 
