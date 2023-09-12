@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from .serializers import ResturentsSerializer
 from .models import Restaurants
+from django.db.models import Q
 
 from rest_framework.response import Response
 from rest_framework import status, generics
@@ -20,11 +21,10 @@ class SearchView(generics.ListAPIView):
 
         queryset = Restaurants.objects.all()
 
-        name = self.request.query_params.get('name', None)
-        location = self.request.query_params.get('location', None)
+        search_query = self.request.query_params.get('q', None)
 
-        if name or location:
-            queryset = Restaurants.objects.filter(name__contains=name, city__contains=location)
+        if search_query:
+            queryset = Restaurants.objects.filter(Q(name__contains=search_query) | Q(location__contains=search_query))
 
         return queryset
 

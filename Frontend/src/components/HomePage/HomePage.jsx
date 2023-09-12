@@ -8,9 +8,8 @@ const URL = "http://127.0.0.1:8000"
 
 export default function HomePage(){
 
-  const [isSearchOpen, setSearchOpen] = useState(false)
   const [searched, setSearched] = useState(false)
-  const [searchQuery, setSearchQuery] = useState({name:"", location:""})
+  const [searchQuery, setSearchQuery] = useState("")
   const [cardInfo, setCardInfo] = useState([])
 
 
@@ -29,11 +28,11 @@ export default function HomePage(){
     fetchData();
   },[])
 
-  async function Search(event){
+  async function search(event){
     event.preventDefault()
     
     try{
-      const response = await axios.get(`${URL}/search?name=${searchQuery.name}&location=${searchQuery.location}`)
+      const response = await axios.get(`${URL}/search?q=${searchQuery}`)
       setCardInfo(response.data)
       setSearched(true)
     }
@@ -42,20 +41,8 @@ export default function HomePage(){
     }
   }
 
-  function handleClickedSearch(){
-    setSearchOpen(true)
-  }
-
-  function handleCloseSearch(){
-    setSearchOpen(false)
-  }
-
-  function updateSearchName(event){
-    setSearchQuery({...searchQuery, name:event.target.value})
-  }
-
-  function updateSearchLocation(event){
-    setSearchQuery({...searchQuery, location:event.target.value})
+  function updateSearchQuery(event){
+    setSearchQuery(event.target.value)
   }
 
   // Generating cards
@@ -63,29 +50,22 @@ export default function HomePage(){
 
   return (
     <>
-      <section className="p-3 border-b-2 border-green-600 flex justify-center">
+      <section className="px-5 py-24 bg-green-200">
         <HomeHeader
-          {...searchQuery}
-
-          isSearchOpen={isSearchOpen}
-
-          updateSearchName={updateSearchName}
-          updateSearchLocation={updateSearchLocation}
-          
-          handleClickedSearch={handleClickedSearch} 
-          handleCloseSearch={handleCloseSearch}
-          handleSubmit={Search}
+          searchQuery = {searchQuery}
+          updateSearchQuery={updateSearchQuery}
+          handleSubmit={search}
         />
       </section>
 
-      <section className="p-3 md:max-2xl">
+      <section className="px-5 py-10 sm:px-10">
 
-        {!searched && <h1 className="pt-3 font-bold text-green-700 text-xl mb-4">
-          You might like these places
-        </h1>}
+        {!searched && <h5 className="text-gray-600 text-xl underline underline-offset-8 font-light mb-6">
+          Explore New Places
+        </h5>}
         
         {cards.length
-          ? <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          ? <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
               {cards}
             </div>
           : <p className="text-center w-full text-lg text-gray-600 pt-6">No matching results found.</p>
