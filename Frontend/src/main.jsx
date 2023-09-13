@@ -4,7 +4,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
 import Root from './components/Root'
 import HomePage from './components/HomePage/HomePage'
-import Search from './components/Search-page'
+import Search from './components/SearchPage/SearchPage'
 
 import ErrorPage from './error-page'
 import './index.css'

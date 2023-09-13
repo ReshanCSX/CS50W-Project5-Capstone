@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react"
+import { useNavigate } from "react-router-dom"
 
 import Card from "./Card"
 import HomeHeader from "./HomeHeader"
@@ -8,16 +9,16 @@ import axios from "axios"
 const URL = "http://127.0.0.1:8000"
 
 export default function HomePage(){
-
-  const [searched, setSearched] = useState(false)
+  
   const [searchQuery, setSearchQuery] = useState("")
   const [cardInfo, setCardInfo] = useState([])
   const [isLoading, setIsLoading] = useState(true)
+  const navigate = useNavigate()
 
 
   // Fetching resturent data 
   useEffect(() => {
-    const fetchData = async () => {
+    async function fetchData(){
       try{
         const response = await axios.get(`${URL}`)
         setIsLoading(false)
@@ -33,15 +34,7 @@ export default function HomePage(){
 
   async function search(event){
     event.preventDefault()
-    
-    try{
-      const response = await axios.get(`${URL}/search?q=${searchQuery}`)
-      setCardInfo(response.data)
-      setSearched(true)
-    }
-    catch(error){
-      console.log(error)
-    }
+    navigate(`/search?q=${searchQuery}`)
   }
 
   function updateSearchQuery(event){
@@ -49,7 +42,7 @@ export default function HomePage(){
   }
 
   // Generating cards
-  const cards = cardInfo.map(info => <Card key={info.id} {...info}/>)
+  const cards = cardInfo?.map(info => <Card key={info.id} {...info}/>)
 
   return (
     <>
@@ -68,9 +61,9 @@ export default function HomePage(){
           ? <Spinner /> 
           
           : <>
-            {!searched && <h5 className="text-gray-600 text-xl underline underline-offset-8 font-light mb-6">
+            <h5 className="text-gray-600 text-xl underline underline-offset-8 font-light mb-6">
               Explore New Places
-            </h5>}
+            </h5>
             
             {cards.length
               ? <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
