@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { useLocation } from "react-router-dom"
 import SearchedCard from "./SeachedCard"
 import axios from "axios"
+import Spinner from "../Spinner"
 
 const URL = "http://127.0.0.1:8000"
 
@@ -10,6 +11,7 @@ export default function Search(){
   const { search } = useLocation();
   const searchQ = new URLSearchParams(search).get("q")
   const [cardInfo, setCardInfo] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
 
@@ -18,6 +20,7 @@ export default function Search(){
         try{
           const response = await axios.get(`${URL}/search${search}`)
           setCardInfo(response.data)
+          setIsLoading(false)
         }
         catch(error){
           console.log(error)
@@ -25,13 +28,13 @@ export default function Search(){
       }
 
     }
-  
+
     fetchData()
+
   },[])
   
   
   const cards = cardInfo?.map(info => <SearchedCard key={info.id} {...info}/>)
-  console.log(cards)
 
   return(
     <>
@@ -46,10 +49,15 @@ export default function Search(){
             }
         </h1>
       </section>
+      
+      { isLoading
 
-      <section className="px-5 lg:pl-20">
-        {cards.length != 0 ? cards : <p className="text-center text-gray-600 py-5">No results found</p>}
-      </section>  
+        ? <Spinner />
+        : <section className="px-5 lg:pl-20">
+            {cards.length != 0 ? cards : <p className="text-center text-gray-600 py-5">No results found</p>}
+          </section>  
+          
+      }
     </>
     )
 }
