@@ -11,11 +11,11 @@ export default function SearchedCard(props){
             </div>
             <div className="p-5 flex flex-col gap-1 justify-center">
                 <h1 className="text-base font-bold text-slate-700">{name}</h1>
-                <h3 className="font-bold text-sm text-green-600 flex">
+                <h2 className="font-bold text-sm text-green-600 flex">
                     {generateStars(rating)}
                     <span className="pl-2">{rating}</span>
-                </h3>
-                <h1 className="text-sm text-gray-600">{location}</h1>
+                </h2>
+                <h2 className="text-sm text-gray-600">{location}</h2>
             </div>
         </div>
     )
