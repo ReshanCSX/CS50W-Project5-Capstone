@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { useLocation } from "react-router-dom"
+import { useLocation, Link } from "react-router-dom"
 import SearchedCard from "./SeachedCard"
 import axios from "axios"
 import Spinner from "../Spinner"
@@ -15,7 +15,7 @@ export default function Search(){
 
   useEffect(() => {
 
-    async function fetchData(){
+    const fetchData = async () => {
       if(searchQ){
         try{
           const response = await axios.get(`${URL}/search${search}`)
@@ -40,14 +40,20 @@ export default function Search(){
     <>
 
       <section className="px-5 pt-5 lg:pl-20">
-        <h1 className="text-gray-600 text-xl font-light mb-6">
-          {searchQ 
+        <div className="w-full md:w-3/4 flex justify-between items-center">
+          <h1 className="text-gray-600 text-xl font-light mb-6">
+            {searchQ 
 
-            ? `Results matching "${searchQ}"`
-            : "We need more information to help you. What are you looking for?"
-            
-            }
-        </h1>
+              ? `Results matching "${searchQ}"`
+              : "We need more information to help you. What are you looking for?"
+              
+              }
+          </h1>
+          <div className="flex">
+            <h2 className="text-gray-600 text-base font-light mb-6">Is Seeker missing a place?</h2>
+            <Link to="/create" className="underline underline-offset-4 text-green-600 hover:text-green-700 ml-3">Add a place</Link>
+          </div>
+        </div>
       </section>
       
       { isLoading
