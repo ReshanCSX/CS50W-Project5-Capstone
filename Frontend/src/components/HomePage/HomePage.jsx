@@ -32,12 +32,12 @@ export default function HomePage(){
     fetchData();
   },[])
 
-  async function search(event){
+  const search = async (event) => {
     event.preventDefault()
     navigate(`/search?q=${searchQuery}`)
   }
 
-  function updateSearchQuery(event){
+  const updateSearchQuery = (event) => {
     setSearchQuery(event.target.value)
   }
 
