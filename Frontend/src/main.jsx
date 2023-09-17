@@ -5,6 +5,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Root from './components/Root'
 import HomePage from './components/HomePage/HomePage'
 import Search from './components/SearchPage/SearchPage'
+import CreateListing from './components/CreateListing/CreateListingPage'
 
 import ErrorPage from './error-page'
 import './index.css'
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
     {
       path: "/search",
       element: <Search />
+    },
+    {
+      path: "/create",
+      element: <CreateListing />
     },
   ],
   },

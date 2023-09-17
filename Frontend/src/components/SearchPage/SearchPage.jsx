@@ -39,9 +39,9 @@ export default function Search(){
   return(
     <>
 
-      <section className="px-5 pt-5 lg:pl-20">
-        <div className="w-full md:w-3/4 flex justify-between items-center">
-          <h1 className="text-gray-600 text-xl font-light mb-6">
+      <section className="px-5 pt-10 md:pl-20">
+        <div className="w-full md:w-3/4">
+          <h1 className="text-gray-600 text-2xl font-bold mb-3">
             {searchQ 
 
               ? `Results matching "${searchQ}"`
@@ -50,8 +50,8 @@ export default function Search(){
               }
           </h1>
           <div className="flex">
-            <h2 className="text-gray-600 text-base font-light mb-6">Is Seeker missing a place?</h2>
-            <Link to="/create" className="underline underline-offset-4 text-green-600 hover:text-green-700 ml-3">Add a place</Link>
+            <h2 className="text-gray-600 text-sm font-light mb-6">Is Seeker missing a place?</h2>
+            <Link to="/create" className="text-sm underline underline-offset-4 text-green-600 hover:text-green-700 ml-3">Add a place</Link>
           </div>
         </div>
       </section>
@@ -59,7 +59,7 @@ export default function Search(){
       { isLoading
 
         ? <Spinner />
-        : <section className="px-5 lg:pl-20">
+        : <section className="px-5 md:pl-20">
             {cards.length != 0 ? cards : <p className="text-center text-gray-600 py-5">No results found</p>}
           </section>  
           
