@@ -5,15 +5,17 @@ import axios from "axios"
 export default function CreateListing(){
 
     const URL = "http://127.0.0.1:8000"
-
-    const [formData, setFormData] = useState({
+    const INITIAL_STATE = {
         name : '',
+        cuisine: '',
         city : '',
         country : '',
         telephone : '',
         email : '',
         website : '',
-    })
+    }
+
+    const [formData, setFormData] = useState(INITIAL_STATE)
 
     const handleChange = (event) => {
         const {name, value} = event.target
@@ -22,24 +24,27 @@ export default function CreateListing(){
 
     const handleSubmit = async (event) => {
         event.preventDefault()
+
+        const data = {
+            'name': formData.name,
+            'cuisine': formData.cuisine,
+            'city': formData.city,
+            'country': formData.country,
+            'phone_number': formData.telephone,
+            'email': formData.email,
+            'website': formData.website,
+        }
+
+
+        const headers = {
+            'Content-Type': 'application/json',
+        }
+
         try{
-            const response = await axios.post(`${URL}/createlisting`, {
+            const response = await axios.post(`${URL}/createlisting`, data, {headers})
+            console.log('Response data:', response.data)
 
-                headers: {
-                  'Content-Type': 'application/json',
-                },
-
-                data: {
-                  name: formData.name,
-                  city: formData.city,
-                  country: formData.country,
-                  telephone: formData.telephone,
-                  email: formData.email,
-                  website: formData.website,
-                },
-            });
-
-        console.log('Response data:', response.data);
+            setFormData(INITIAL_STATE)
         
         }
         catch(error){
@@ -63,6 +68,14 @@ export default function CreateListing(){
                             <TextField
                                 name="name"
                                 label="Resturent Name"
+                                required={true}
+                                handleChange={handleChange}
+                                value={formData}
+                            />
+
+                            <TextField
+                                name="cuisine"
+                                label="Cuisine"
                                 required={true}
                                 handleChange={handleChange}
                                 value={formData}
