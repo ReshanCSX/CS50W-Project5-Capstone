@@ -2,7 +2,7 @@ import generateStars from "../util"
 
 export default function SearchedCard(props){
 
-    const { name, rating, location } = props
+    const { name, city, country  } = props
 
     return (
         <div className="border flex w-full md:w-3/4">
@@ -12,10 +12,13 @@ export default function SearchedCard(props){
             <div className="p-5 flex flex-col gap-1 justify-center">
                 <h1 className="text-base font-bold text-slate-700">{name}</h1>
                 <h2 className="font-bold text-sm text-green-600 flex">
-                    {generateStars(rating)}
-                    <span className="pl-2">{rating}</span>
+                    {generateStars(3)}
+                    <span className="pl-2">{3}</span>
                 </h2>
-                <h2 className="text-sm text-gray-600">{location}</h2>
+                <div className="flex gap-1">
+                    <h2 className="text-sm text-gray-600">{city},</h2>
+                    <h2 className="text-sm text-gray-600">{country}</h2>
+                </div>
             </div>
         </div>
     )

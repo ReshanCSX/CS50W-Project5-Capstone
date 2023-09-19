@@ -14,7 +14,7 @@ export default function HomeHeader(props){
                             required
                             className="md:col-span-9 p-3 border-2 border-green-600 rounded focus:outline-green-800"
                             type="text"
-                            placeholder="Search for Resturents, Locations"
+                            placeholder="Search for Resturents, Locations, Cuisines"
                             value={props.searchQuery}
                             onChange={props.updateSearchQuery}
                         />
