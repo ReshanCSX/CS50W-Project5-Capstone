@@ -3,10 +3,10 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 
 class Restaurants(models.Model):
     name = models.CharField(max_length=30, null=False, blank=False)
-    cuisine = models.CharField(max_length=30)
+    cuisine = models.CharField(max_length=30, null=False, blank=False)
     city = models.CharField(max_length=30, null=False, blank=False)
     country = models.CharField(max_length=30, null=False, blank=False)
-    phone_number = models.CharField(max_length=12)
+    phone_number = models.CharField(max_length=12, null=True, blank=True)
     email = models.EmailField(null=True, blank=True)
     website = models.URLField(null=True, blank=True)    
     

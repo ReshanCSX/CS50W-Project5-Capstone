@@ -10,7 +10,7 @@ export default function CreateListing(){
         cuisine: '',
         city : '',
         country : '',
-        telephone : '',
+        phone_number : '',
         email : '',
         website : '',
     }
@@ -31,7 +31,7 @@ export default function CreateListing(){
             'cuisine': formData.cuisine,
             'city': formData.city,
             'country': formData.country,
-            'phone_number': formData.telephone,
+            'phone_number': formData.phone_number,
             'email': formData.email,
             'website': formData.website,
         }
@@ -42,25 +42,33 @@ export default function CreateListing(){
         }
 
         try{
+            
             const response = await axios.post(`${URL}/createlisting`, data, {headers})
             if(response.AxiosError){
                 console.log(response.data)
             }
             console.log('Response data:', response.data)
-
+            
+            setFormErrorData(INITIAL_STATE)
             setFormData(INITIAL_STATE)
         
         }
         catch(errors){
+            const errorData = errors.response.data
+            const newFormErrors = INITIAL_STATE
 
-            // errors.response.data.map(error => console.log(error))
-            for (const [key, value] of Object.entries(errors.response.data)) {
-                console.log(key, value);
+            for (const [key, value] of Object.entries(errorData)) {
+                if (key in newFormErrors){
+                    newFormErrors[key] = value
+                } 
             }
+
+            setFormErrorData(newFormErrors)
+
+
         }
     }
     
-
     return(
         <section className="px-5 py-10 md:px-20 lg:max-w-xl">
             <div>
@@ -78,6 +86,7 @@ export default function CreateListing(){
                                 label="Resturent Name"
                                 required={true}
                                 handleChange={handleChange}
+                                errors = {formErrorData}
                                 value={formData}
                             />
 
@@ -85,6 +94,7 @@ export default function CreateListing(){
                                 name="cuisine"
                                 label="Cuisine"
                                 required={true}
+                                errors = {formErrorData}
                                 handleChange={handleChange}
                                 value={formData}
                             />
@@ -99,6 +109,7 @@ export default function CreateListing(){
                                 name="city"
                                 label="City"
                                 required={true}
+                                errors = {formErrorData}
                                 handleChange={handleChange}
                                 value={formData}
                             />
@@ -107,6 +118,7 @@ export default function CreateListing(){
                                 name="country"
                                 label="Country"
                                 required={true}
+                                errors = {formErrorData}
                                 handleChange={handleChange}
                                 value={formData}
                             />
@@ -118,9 +130,10 @@ export default function CreateListing(){
                         <div>
                             <h1 className="text-xl my-4 font-bold text-gray-700">Contact Infomation</h1>
                             <TextField
-                                name="telephone"
+                                name="phone_number"
                                 label="Telephone"
                                 type="number"
+                                errors = {formErrorData}
                                 handleChange={handleChange}
                                 value={formData}
                             />
@@ -129,6 +142,7 @@ export default function CreateListing(){
                                 name="email"
                                 label="Email"
                                 type="email"
+                                errors = {formErrorData}
                                 handleChange={handleChange}
                                 value={formData}
                             />
@@ -136,6 +150,7 @@ export default function CreateListing(){
                             <TextField
                                 name="website"
                                 label="Web Site"
+                                errors = {formErrorData}
                                 handleChange={handleChange}
                                 value={formData}
                             />
