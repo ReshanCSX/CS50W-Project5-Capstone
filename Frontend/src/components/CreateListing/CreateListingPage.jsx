@@ -16,6 +16,7 @@ export default function CreateListing(){
     }
 
     const [formData, setFormData] = useState(INITIAL_STATE)
+    const [formErrorData, setFormErrorData ] = useState(INITIAL_STATE)
 
     const handleChange = (event) => {
         const {name, value} = event.target
@@ -42,13 +43,20 @@ export default function CreateListing(){
 
         try{
             const response = await axios.post(`${URL}/createlisting`, data, {headers})
+            if(response.AxiosError){
+                console.log(response.data)
+            }
             console.log('Response data:', response.data)
 
             setFormData(INITIAL_STATE)
         
         }
-        catch(error){
-            console.log(error)
+        catch(errors){
+
+            // errors.response.data.map(error => console.log(error))
+            for (const [key, value] of Object.entries(errors.response.data)) {
+                console.log(key, value);
+            }
         }
     }
     
