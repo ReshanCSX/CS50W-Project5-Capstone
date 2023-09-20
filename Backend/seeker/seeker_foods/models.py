@@ -1,7 +1,7 @@
 from django.db import models
-from django.core.validators import MaxValueValidator, MinValueValidator 
+from django.contrib.auth.models import User
 
-class Restaurants(models.Model):
+class Restaurant(models.Model):
     name = models.CharField(max_length=30, null=False, blank=False)
     cuisine = models.CharField(max_length=30, null=False, blank=False)
     city = models.CharField(max_length=30, null=False, blank=False)
@@ -12,5 +12,12 @@ class Restaurants(models.Model):
     
 
     def __str__(self):
-        return f"{self.name} {self.location} {self.rating}"
+        return f"Restaurant {self.name}"
 
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    profile_picture = models.ImageField(default='default.jpg', upload_to='profile_pics')
+
+    def __str__(self):
+        return f'{self.user.username}'
