@@ -1,33 +1,33 @@
 from django.shortcuts import render, HttpResponse
-from .serializers import ResturentsSerializer, CreateResturentsSerializer
-from .models import Restaurants
+from .serializers import ResturentSerializer, CreateResturentSerializer
+from .models import Restaurant
 from django.db.models import Q
 
 from rest_framework.response import Response
-from rest_framework import status, generics
+from rest_framework import status, generics, permissions
+from django.contrib.auth.decorators import login_required
 
 
 class HomeView(generics.ListAPIView):
-
-    queryset = Restaurants.objects.all()[:5]
-    serializer_class = ResturentsSerializer
+    permission_classes = [permissions.AllowAny]
+    queryset = Restaurant.objects.all()[:5]
+    serializer_class = ResturentSerializer
 
 
 class SearchView(generics.ListAPIView):
-    
-    serializer_class = ResturentsSerializer
+    permission_classes = [permissions.AllowAny]
+    serializer_class = ResturentSerializer
 
     def get_queryset(self):
-        queryset = Restaurants.objects.all()
+        queryset = Restaurant.objects.all()
 
         search_query = self.request.query_params.get('q', None)
 
         if search_query:
-            queryset = Restaurants.objects.filter(Q(name__contains=search_query) | Q(city__contains=search_query) | Q(country__contains=search_query) | Q(cuisine__contains=search_query))
+            queryset = Restaurant.objects.filter(Q(name__contains=search_query) | Q(city__contains=search_query) | Q(country__contains=search_query) | Q(cuisine__contains=search_query))
 
         return queryset
     
-
 class CreatePlaceView(generics.CreateAPIView):
 
     # Add http before an URL 
@@ -44,7 +44,7 @@ class CreatePlaceView(generics.CreateAPIView):
             request.data['website'] = self.prepend_http_if_needed(request.data['website'])
 
 
-        serializer = CreateResturentsSerializer(data=request.data)
+        serializer = CreateResturentSerializer(data=request.data)
 
 
         if serializer.is_valid():

@@ -4,7 +4,7 @@ import axios from "axios"
 
 export default function CreateListing(){
 
-    const URL = "http://127.0.0.1:8000"
+    const URL = "https://api.seeker.com:8000"
     const INITIAL_STATE = {
         name : '',
         cuisine: '',
