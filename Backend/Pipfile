@@ -7,8 +7,6 @@ name = "pypi"
 django = "==4.2.4"
 djangorestframework = "*"
 django-cors-headers = "*"
-django-sslserver = "*"
-dj-rest-auth = {extras = ["with_social"], version = "*"}
 pillow = "*"
 djangorestframework-simplejwt = "*"
 

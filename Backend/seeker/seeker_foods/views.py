@@ -6,6 +6,7 @@ from django.db.models import Q
 from rest_framework.response import Response
 from rest_framework import status, generics, permissions
 from django.contrib.auth.decorators import login_required
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 
 
 class HomeView(generics.ListAPIView):
@@ -52,6 +53,13 @@ class CreatePlaceView(generics.CreateAPIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+class LoginView(generics.CreateAPIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
+
+    def print(self, request):
+        print(request.data)
 
     
 
