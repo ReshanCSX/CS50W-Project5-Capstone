@@ -7,16 +7,20 @@ from rest_framework.response import Response
 from rest_framework import status, generics, permissions
 from django.contrib.auth.decorators import login_required
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from rest_framework.decorators import permission_classes, authentication_classes
+from rest_framework.permissions import AllowAny, IsAuthenticated
 
 
+@permission_classes([AllowAny])
+@authentication_classes([])
 class HomeView(generics.ListAPIView):
-    permission_classes = [permissions.AllowAny]
     queryset = Restaurant.objects.all()[:5]
     serializer_class = ResturentSerializer
 
 
+@permission_classes([AllowAny])
+@authentication_classes([])
 class SearchView(generics.ListAPIView):
-    permission_classes = [permissions.AllowAny]
     serializer_class = ResturentSerializer
 
     def get_queryset(self):
@@ -28,7 +32,9 @@ class SearchView(generics.ListAPIView):
             queryset = Restaurant.objects.filter(Q(name__contains=search_query) | Q(city__contains=search_query) | Q(country__contains=search_query) | Q(cuisine__contains=search_query))
 
         return queryset
-    
+
+
+@permission_classes([IsAuthenticated])
 class CreatePlaceView(generics.CreateAPIView):
 
     # Add http before an URL 
@@ -53,13 +59,15 @@ class CreatePlaceView(generics.CreateAPIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        
-class LoginView(generics.CreateAPIView):
-    authentication_classes = [SessionAuthentication, BasicAuthentication]
-    permission_classes = [permissions.IsAuthenticated]
 
-    def print(self, request):
+
+@permission_classes([AllowAny])
+@authentication_classes([])
+class LoginView(generics.CreateAPIView):
+
+    def post(self, request):
         print(request.data)
+        return Response(request.data, status=status.HTTP_201_CREATED)
 
     
 

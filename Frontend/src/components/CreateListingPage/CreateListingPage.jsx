@@ -1,10 +1,22 @@
 import { useState } from "react"
-import TextField from "./TextField"
-import axios from "axios"
+import { useLoaderData, Navigate } from 'react-router-dom'
+import TextField from "../TextField"
+import Button from "../Button"
+import { API } from "../../api"
+import updateAuthToken from "../../api/auth/updateAuthStatus"
 
 export default function CreateListing(){
 
-    const URL = "https://api.seeker.com:8000"
+    // Check if the user authenticated
+    const data = useLoaderData()
+
+    if (!data) {
+      return <Navigate to='/login' />
+    } else {
+        updateAuthToken()
+    }
+    
+
     const INITIAL_STATE = {
         name : '',
         cuisine: '',
@@ -36,17 +48,10 @@ export default function CreateListing(){
             'website': formData.website,
         }
 
-
-        const headers = {
-            'Content-Type': 'application/json',
-        }
-
         try{
-            
-            const response = await axios.post(`${URL}/createlisting`, data, {headers})
-            if(response.AxiosError){
-                console.log(response.data)
-            }
+
+            const response = await API.post('/createlisting', data,)
+
             console.log('Response data:', response.data)
             
             setFormErrorData(INITIAL_STATE)
@@ -64,8 +69,6 @@ export default function CreateListing(){
             }
 
             setFormErrorData(newFormErrors)
-
-
         }
     }
     
@@ -158,10 +161,7 @@ export default function CreateListing(){
 
                     </fieldset>
                     
-                    <div className="mt-8">
-                        <button
-                            className="w-full sm:w-1/3 rounded-full py-2.5 font-bold bg-green-600 hover:bg-green-700 text-white">Create</button>
-                    </div>
+                    <Button name="Create"/>
                 </form>
 
             </div>
