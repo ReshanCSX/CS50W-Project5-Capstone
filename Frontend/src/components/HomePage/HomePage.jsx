@@ -4,9 +4,7 @@ import { useNavigate } from "react-router-dom"
 import Card from "./Card"
 import HomeHeader from "./HomeHeader"
 import Spinner from "../Spinner"
-import axios from "axios"
-
-const URL = "https://api.seeker.com:8000"
+import { API } from "../../api"
 
 export default function HomePage(){
   
@@ -15,13 +13,12 @@ export default function HomePage(){
   const [isLoading, setIsLoading] = useState(true)
   const navigate = useNavigate()
 
-
   // Fetching resturent data 
   useEffect(() => {
     async function fetchData(){
       try{
-        const response = await axios.get(`${URL}`)
-        setIsLoading(falase)
+        const response = await API.get('/home')
+        setIsLoading(false)
         setCardInfo(response.data)
       }
       catch(error){

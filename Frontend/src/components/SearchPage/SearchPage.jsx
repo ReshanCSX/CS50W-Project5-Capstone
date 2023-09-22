@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react"
 import { useLocation, Link } from "react-router-dom"
 import SearchedCard from "./SeachedCard"
-import axios from "axios"
 import Spinner from "../Spinner"
+import { API } from "../../api"
 
-const URL = "https://api.seeker.com:8000"
 
 export default function Search(){
 
@@ -18,7 +17,7 @@ export default function Search(){
     const fetchData = async () => {
       if(searchQ){
         try{
-          const response = await axios.get(`${URL}/search${search}`)
+          const response = await API.get(`/search${search}`)
           setCardInfo(response.data)
           setIsLoading(false)
         }
