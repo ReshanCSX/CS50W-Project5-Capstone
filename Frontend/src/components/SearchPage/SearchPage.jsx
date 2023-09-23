@@ -3,21 +3,22 @@ import { useLocation, Link } from "react-router-dom"
 import SearchedCard from "./SeachedCard"
 import Spinner from "../Spinner"
 import { API } from "../../api"
+import { getParams } from "../util"
 
 
 export default function Search(){
 
-  const { search } = useLocation();
-  const searchQ = new URLSearchParams(search).get("q")
+  const searchParam = getParams(useLocation(), 'q')
   const [cardInfo, setCardInfo] = useState([])
   const [isLoading, setIsLoading] = useState(true)
 
+  
   useEffect(() => {
 
     const fetchData = async () => {
-      if(searchQ){
+      if(searchParam){
         try{
-          const response = await API.get(`/search${search}`)
+          const response = await API.get(`/search?q=${searchParam}`)
           setCardInfo(response.data)
           setIsLoading(false)
         }
@@ -40,17 +41,17 @@ export default function Search(){
 
       <section className="px-5 pt-10 md:pl-20">
         <div className="w-full md:w-3/4">
-          <h1 className="text-gray-600 text-2xl font-bold mb-3">
-            {searchQ 
+          <h1 className="text-green-600 text-2xl font-bold mb-3">
+            {searchParam 
 
-              ? `Results matching "${searchQ}"`
+              ? `Results matching "${searchParam}"`
               : "We need more information to help you. What are you looking for?"
               
               }
           </h1>
           <div className="flex">
             <h2 className="text-gray-600 text-sm font-light mb-6">Is Seeker missing a place?</h2>
-            <Link to="/create" className="text-sm underline underline-offset-4 text-green-600 hover:text-green-700 ml-3">Add a place</Link>
+            <Link to="/create" className="text-sm underline underline-offset-4 text-green-600 hover:text-green-800 ml-3">Add a place</Link>
           </div>
         </div>
       </section>

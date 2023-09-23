@@ -1,6 +1,6 @@
 import Star from "./Star"
 
-export default function generateStars(rating){
+export function generateStars(rating){
     const stras=[]
     const numFullStars = Math.floor(rating)
     const hasHalfStars = (rating % 1 != 0)
@@ -21,4 +21,12 @@ export default function generateStars(rating){
     }
 
     return stras
+}
+
+export function getParams(location, keyword){
+
+    const { search } = location
+    const param = new URLSearchParams(search).get(keyword)
+
+    return param
 }
