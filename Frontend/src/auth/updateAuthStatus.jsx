@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { API } from ".."
+import { API } from "../api"
 
 
 const getAuthToken = () => {

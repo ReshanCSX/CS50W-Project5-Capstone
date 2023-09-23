@@ -3,7 +3,7 @@ import { useLoaderData, Navigate } from 'react-router-dom'
 import TextField from "../TextField"
 import Button from "../Button"
 import { API } from "../../api"
-import updateAuthToken from "../../api/auth/updateAuthStatus"
+import updateAuthToken from "../../auth/updateAuthStatus"
 
 export default function CreateListing(){
 
@@ -11,7 +11,7 @@ export default function CreateListing(){
     const data = useLoaderData()
 
     if (!data) {
-      return <Navigate to='/login' />
+      return <Navigate to='/login?next=create' />
     } else {
         updateAuthToken()
     }
@@ -73,12 +73,12 @@ export default function CreateListing(){
     }
     
     return(
-        <section className="px-5 py-10 md:px-20 lg:max-w-xl">
+        <section className="px-5 py-10 flex justify-center">
             <div>
-                <h1 className="text-green-600 text-4xl font-extrabold mb-6">Add a place to Seeker.</h1>
-            </div>
 
-            <div>
+                <div className="">
+                    <h1 className="text-green-600 text-center text-4xl font-extrabold mb-6">Add a place to Seeker.</h1>
+                </div>
 
                 <form onSubmit={handleSubmit}>
                     <fieldset>
@@ -108,23 +108,23 @@ export default function CreateListing(){
                         <div>
                             <h1 className="text-xl my-4 font-bold text-gray-700">Location</h1>
                             <div className="md:grid md:grid-cols-2 md:gap-3">
-                            <TextField
-                                name="city"
-                                label="City"
-                                required={true}
-                                errors = {formErrorData}
-                                handleChange={handleChange}
-                                value={formData}
-                            />
-                        
-                            <TextField
-                                name="country"
-                                label="Country"
-                                required={true}
-                                errors = {formErrorData}
-                                handleChange={handleChange}
-                                value={formData}
-                            />
+                                <TextField
+                                    name="city"
+                                    label="City"
+                                    required={true}
+                                    errors = {formErrorData}
+                                    handleChange={handleChange}
+                                    value={formData}
+                                />
+                            
+                                <TextField
+                                    name="country"
+                                    label="Country"
+                                    required={true}
+                                    errors = {formErrorData}
+                                    handleChange={handleChange}
+                                    value={formData}
+                                />
                             </div>
                         </div>
 

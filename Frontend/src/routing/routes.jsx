@@ -1,5 +1,5 @@
 import { createBrowserRouter } from "react-router-dom"
-import { useAuthStatus } from "../api/auth/useAuthToken"
+import { useAuthStatus } from "../auth/useAuthToken"
 
 import ErrorPage from "../error-page"
 import Root from "../components/Root"
@@ -30,6 +30,7 @@ export const ROUTES = createBrowserRouter([
       },
       {
         path: "/login",
+        loader: useAuthStatus,
         element: <Login />
       },
     ],

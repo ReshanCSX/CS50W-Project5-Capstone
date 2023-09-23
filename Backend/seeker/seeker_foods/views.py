@@ -14,7 +14,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 @permission_classes([AllowAny])
 @authentication_classes([])
 class HomeView(generics.ListAPIView):
-    queryset = Restaurant.objects.all()[:5]
+    queryset = Restaurant.objects.all()[:6]
     serializer_class = ResturentSerializer
 
 

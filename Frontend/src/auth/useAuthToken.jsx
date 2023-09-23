@@ -1,4 +1,4 @@
-import { API } from ".."
+import { API } from "../api"
 
 export const useAuthStatus = async () => {
 

@@ -1,4 +1,4 @@
-import generateStars from "../util"
+import { generateStars } from "../util"
 
 export default function Card(props){
 
