@@ -7,6 +7,7 @@ import HomePage from "../components/HomePage/HomePage"
 import Search from "../components/SearchPage/SearchPage"
 import CreateListing from "../components/CreateListingPage/CreateListingPage"
 import Login from "../components/LoginPage/LoginPage"
+import Register from "../components/Register/RegisterPage"
 
 
 export const ROUTES = createBrowserRouter([
@@ -36,7 +37,7 @@ export const ROUTES = createBrowserRouter([
       {
         path: "/register",
         loader: useAuthStatus,
-        element: <Login />
+        element: <Register />
       },
     ],
     },
