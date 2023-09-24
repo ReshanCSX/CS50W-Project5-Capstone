@@ -1,12 +1,10 @@
 from django.shortcuts import render, HttpResponse
-from .serializers import ResturentSerializer, CreateResturentSerializer
-from .models import Restaurant
+from .serializers import ResturentSerializer, CreateResturentSerializer, RegistrationSerializer
+from .models import Restaurant, User
 from django.db.models import Q
 
 from rest_framework.response import Response
-from rest_framework import status, generics, permissions
-from django.contrib.auth.decorators import login_required
-from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from rest_framework import status, generics
 from rest_framework.decorators import permission_classes, authentication_classes
 from rest_framework.permissions import AllowAny, IsAuthenticated
 
@@ -63,14 +61,7 @@ class CreatePlaceView(generics.CreateAPIView):
 
 @permission_classes([AllowAny])
 @authentication_classes([])
-class LoginView(generics.CreateAPIView):
+class RegisterView(generics.CreateAPIView):     
 
-    def post(self, request):
-        print(request.data)
-        return Response(request.data, status=status.HTTP_201_CREATED)
-
-    
-
-
-
+    serializer_class = RegistrationSerializer
 

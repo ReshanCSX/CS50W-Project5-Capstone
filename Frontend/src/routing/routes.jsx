@@ -33,6 +33,11 @@ export const ROUTES = createBrowserRouter([
         loader: useAuthStatus,
         element: <Login />
       },
+      {
+        path: "/register",
+        loader: useAuthStatus,
+        element: <Login />
+      },
     ],
     },
   ])
