@@ -3,12 +3,12 @@ from .models import Restaurant, User
 from rest_framework_simplejwt.tokens import RefreshToken
 
 
-class ResturentSerializer(serializers.ModelSerializer):
+class RestaurantSerializer(serializers.ModelSerializer):
     class Meta:
         model = Restaurant
         fields = ('__all__')
 
-class CreateResturentSerializer(serializers.ModelSerializer):
+class CreateRestaurantSerializer(serializers.ModelSerializer):
     class Meta:
         model = Restaurant
         fields = ('name', 'cuisine', 'city', 'country', 'phone_number', 'email', 'website')
