@@ -2,7 +2,7 @@ import TextField from "../TextField"
 import Button from "../Button"
 import { useState } from "react"
 import { API } from "../../api"
-import { useNavigate, useLocation, Navigate, useLoaderData } from 'react-router-dom'
+import { useNavigate, useLocation, Navigate, useLoaderData, Link } from 'react-router-dom'
 import { getParams } from "../util"
 
 export default function Login(){
@@ -63,7 +63,7 @@ export default function Login(){
 
     return(
         <section className="flex p-10 items-center justify-center h-full">
-            <div className="w-full sm:max-w-sm shadow-md border-2 p-10 rounded-md">
+            <div className="w-full sm:max-w-md shadow-md border-2 p-10 rounded-md">
                 <form onSubmit={handleSubmit} className="mb-6">
                     <fieldset>
                         <div className="mb-6">
@@ -98,7 +98,7 @@ export default function Login(){
                 <hr className="my-4"/>
                 <p className="text-sm text-gray-600 text-center">
                     New to Seeker?
-                    <a href="#" className="underline underline-offset-4 pl-2 text-green-600 hover:text-green-800">Sign Up</a>
+                    <Link to="/register" className="underline underline-offset-4 pl-2 text-green-600 hover:text-green-800">Sign Up</Link>
                 </p>
             </div>
         </section>

@@ -1,5 +1,5 @@
 from django.shortcuts import render, HttpResponse
-from .serializers import ResturentSerializer, CreateResturentSerializer, RegistrationSerializer
+from .serializers import RestaurantSerializer, CreateRestaurantSerializer, RegistrationSerializer
 from .models import Restaurant, User
 from django.db.models import Q
 
@@ -13,13 +13,13 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 @authentication_classes([])
 class HomeView(generics.ListAPIView):
     queryset = Restaurant.objects.all()[:6]
-    serializer_class = ResturentSerializer
+    serializer_class = RestaurantSerializer
 
 
 @permission_classes([AllowAny])
 @authentication_classes([])
 class SearchView(generics.ListAPIView):
-    serializer_class = ResturentSerializer
+    serializer_class = RestaurantSerializer
 
     def get_queryset(self):
         queryset = Restaurant.objects.all()
@@ -49,7 +49,7 @@ class CreatePlaceView(generics.CreateAPIView):
             request.data['website'] = self.prepend_http_if_needed(request.data['website'])
 
 
-        serializer = CreateResturentSerializer(data=request.data)
+        serializer = CreateRestaurantSerializer(data=request.data)
 
 
         if serializer.is_valid():
@@ -64,4 +64,14 @@ class CreatePlaceView(generics.CreateAPIView):
 class RegisterView(generics.CreateAPIView):     
 
     serializer_class = RegistrationSerializer
+
+
+@permission_classes([AllowAny])
+@authentication_classes([])
+class PlaceDetailsView(generics.RetrieveAPIView):
+
+    queryset = Restaurant.objects.all()
+    serializer_class = RestaurantSerializer
+    lookup_field = 'id'
+
 
