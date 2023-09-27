@@ -2,10 +2,10 @@ import { generateStars } from "../util"
 
 export default function SearchedCard(props){
 
-    const { name, city, country  } = props
+    const { id, name, city, country, handleCardClick } = props
 
     return (
-        <div className="border flex w-full md:w-3/4">
+        <div className="border flex w-full md:w-3/4" onClick={() => handleCardClick(id)}>
             <div className="p-2">
                 <img className="h-28 w-36 md:h-24 md:w-26 object-cover" alt={`image of the ${name}`} src="https://images.pexels.com/photos/683039/pexels-photo-683039.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"></img>
             </div>

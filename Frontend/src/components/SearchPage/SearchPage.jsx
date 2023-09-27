@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { useLocation, Link } from "react-router-dom"
+import { useLocation, Link, useNavigate } from "react-router-dom"
 import SearchedCard from "./SeachedCard"
 import Spinner from "../Spinner"
 import { API } from "../../api"
@@ -11,6 +11,7 @@ export default function Search(){
   const searchParam = getParams(useLocation(), 'q')
   const [cardInfo, setCardInfo] = useState([])
   const [isLoading, setIsLoading] = useState(true)
+  const navigate = useNavigate()
 
   
   useEffect(() => {
@@ -32,9 +33,12 @@ export default function Search(){
     fetchData()
 
   },[])
+
+  const handleCardClick = (id) => {
+    navigate(`/location/${id}`)
+  }
   
-  
-  const cards = cardInfo?.map(info => <SearchedCard key={info.id} {...info}/>)
+  const cards = cardInfo?.map(info => <SearchedCard key={info.id} {...info} handleCardClick={handleCardClick}/>)
 
   return(
     <>

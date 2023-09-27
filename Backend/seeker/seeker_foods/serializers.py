@@ -4,9 +4,17 @@ from rest_framework_simplejwt.tokens import RefreshToken
 
 
 class RestaurantSerializer(serializers.ModelSerializer):
+
+    location = serializers.SerializerMethodField()
+
     class Meta:
         model = Restaurant
-        fields = ('__all__')
+        fields = ('id', 'name', 'location', 'cuisine', 'phone_number', 'email', 'website')
+
+    def get_location(self, object):
+        location = object.city + "," + object.country
+
+        return location
 
 class CreateRestaurantSerializer(serializers.ModelSerializer):
     class Meta:

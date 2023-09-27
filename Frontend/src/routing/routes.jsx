@@ -8,6 +8,7 @@ import Search from "../components/SearchPage/SearchPage"
 import CreateListing from "../components/CreateListingPage/CreateListingPage"
 import Login from "../components/LoginPage/LoginPage"
 import Register from "../components/Register/RegisterPage"
+import ViewLocation from "../components/PlaceDetailsPage/PlaceDetailsPage"
 
 
 export const ROUTES = createBrowserRouter([
@@ -38,6 +39,10 @@ export const ROUTES = createBrowserRouter([
         path: "/register",
         loader: useAuthStatus,
         element: <Register />
+      },
+      {
+        path: "/location/:LocationId",
+        element: <ViewLocation />
       },
     ],
     },
