@@ -14,6 +14,7 @@ urlpatterns = [
     path('createlisting', views.CreatePlaceView.as_view()),
     path('register', views.RegisterView.as_view()),
     path('location/<int:id>', views.PlaceDetailsView.as_view()),
+    path('write/<int:id>', views.SubmitReviewView.as_view()),
 
     path('token', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
