@@ -2,10 +2,10 @@ import { generateStars } from "../util"
 
 export default function Card(props){
 
-    const { name, city, country } = props
+    const { id, name, city, country, handleCardClick } = props
     
     return (
-    <div className="shadow-md border rounded-md">
+    <div className="shadow-md border rounded-md" onClick={() => handleCardClick(id)}>
         <div>
             <img className="h-40 w-full object-cover rounded-t-md" alt={`image of the ${name}`} src="https://images.pexels.com/photos/683039/pexels-photo-683039.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" />
         </div>

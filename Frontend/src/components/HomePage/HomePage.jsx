@@ -38,8 +38,12 @@ export default function HomePage(){
     setSearchQuery(event.target.value)
   }
 
+  const handleCardClick = (id) => {
+    navigate(`/location/${id}`)
+  }
+
   // Generating cards
-  const cards = cardInfo?.map(info => <Card key={info.id} {...info}/>)
+  const cards = cardInfo?.map(info => <Card key={info.id} {...info} handleCardClick={handleCardClick}/>)
 
   return (
     <>
