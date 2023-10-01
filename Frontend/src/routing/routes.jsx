@@ -9,6 +9,7 @@ import CreateListing from "../components/CreateListingPage/CreateListingPage"
 import Login from "../components/LoginPage/LoginPage"
 import Register from "../components/Register/RegisterPage"
 import ViewLocation from "../components/PlaceDetailsPage/PlaceDetailsPage"
+import AddReviewPage from "../components/AddReviewPage/AddReviewPage"
 
 
 export const ROUTES = createBrowserRouter([
@@ -43,6 +44,10 @@ export const ROUTES = createBrowserRouter([
       {
         path: "/location/:LocationId",
         element: <ViewLocation />
+      },
+      {
+        path: "/write/:LocationId",
+        element: <AddReviewPage />
       },
     ],
     },
