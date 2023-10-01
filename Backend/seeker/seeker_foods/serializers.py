@@ -1,25 +1,33 @@
 from rest_framework import serializers
-from .models import Restaurant, User
+from .models import Restaurant, User, Review
 from rest_framework_simplejwt.tokens import RefreshToken
 
 
 class RestaurantSerializer(serializers.ModelSerializer):
 
     location = serializers.SerializerMethodField()
+    reviews = serializers.SerializerMethodField()
 
     class Meta:
         model = Restaurant
-        fields = ('id', 'name', 'location', 'cuisine', 'phone_number', 'email', 'website')
+        fields = ('id', 'name', 'location', 'cuisine', 'phone_number', 'email', 'website', 'reviews')
 
     def get_location(self, object):
         location = object.city + "," + object.country
 
         return location
+    
+    def get_reviews(self, object):
+        reviews = ReviewSerializer(object.restaurant_reviews.all(), many=True)
+
+        return reviews.data
+
 
 class CreateRestaurantSerializer(serializers.ModelSerializer):
     class Meta:
         model = Restaurant
         fields = ('name', 'cuisine', 'city', 'country', 'phone_number', 'email', 'website')
+
 
 class RegistrationSerializer(serializers.ModelSerializer):
     
@@ -58,4 +66,23 @@ class RegistrationSerializer(serializers.ModelSerializer):
         user.save()
 
         return user
+    
+
+class ReviewSerializer(serializers.ModelSerializer):
+
+    reviewer = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Review
+        fields = ('reviewer', 'content', 'rating', 'timestamp')
+
+    def get_reviewer(self, object):
+        return object.reviewer.username
+
+
+class CreateReviewSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Review
+        fields = ('__all__')
     

@@ -1,6 +1,6 @@
 from django.shortcuts import render, HttpResponse
-from .serializers import RestaurantSerializer, CreateRestaurantSerializer, RegistrationSerializer
-from .models import Restaurant, User
+from .serializers import RestaurantSerializer, CreateRestaurantSerializer, RegistrationSerializer, CreateReviewSerializer
+from .models import Restaurant, User, Review
 from django.db.models import Q
 
 from rest_framework.response import Response
@@ -75,3 +75,8 @@ class PlaceDetailsView(generics.RetrieveAPIView):
     lookup_field = 'id'
 
 
+@permission_classes([AllowAny])
+@authentication_classes([])
+class SubmitReviewView(generics.CreateAPIView):
+
+    serializer_class = CreateReviewSerializer
