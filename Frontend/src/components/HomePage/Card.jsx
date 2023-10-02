@@ -5,7 +5,7 @@ export default function Card(props){
     const { id, name, city, country, handleCardClick } = props
     
     return (
-    <div className="shadow-md border rounded-md" onClick={() => handleCardClick(id)}>
+    <div className="shadow-md border rounded-md hover:cursor-pointer" onClick={() => handleCardClick(id)}>
         <div>
             <img className="h-40 w-full object-cover rounded-t-md" alt={`image of the ${name}`} src="https://images.pexels.com/photos/683039/pexels-photo-683039.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" />
         </div>

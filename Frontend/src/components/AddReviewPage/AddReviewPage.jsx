@@ -3,15 +3,33 @@ import { API } from "../../api"
 
 import Button from "../Button"
 import StarRating from "./StarRating"
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import Spinner from "../Spinner"
 
 export default function AddReviewPage(){
 
     const { LocationId } = useParams()
     const navigate = useNavigate()
+    const [locationData, setLocationData] = useState("")
+    const [isLoading, setIsLoading] = useState(true)
     const [rating, setRating] = useState(0)
     const [review, setReview] = useState("")
     const [reviewErrors, setReviewErrors] = useState("")
+
+
+    useEffect(()=> {
+        async function fetchName(){
+            try{
+                const response = await API.get('location/' + LocationId)
+                setLocationData(response.data)
+                setIsLoading(false)
+            } catch(error){
+                console.log(error)
+            }
+        }
+
+        fetchName()
+    },[])
 
 
     const handleClickRating = (value) => {
@@ -26,6 +44,8 @@ export default function AddReviewPage(){
 
     const submitForm = async (event) => {
         event.preventDefault()
+
+        setReviewErrors("")
 
         if(rating === 0){
             setReviewErrors("Please add a star rating to complete your review.")
@@ -44,8 +64,6 @@ export default function AddReviewPage(){
 
         try{
             const response = await API.post(`write/${LocationId}`, body)
-            
-            setReviewErrors("")
 
             if (response.status === 200) {
                 navigate(`location/` + LocationId)
@@ -60,32 +78,45 @@ export default function AddReviewPage(){
 
     return(
 
-        <section className="px-5 mt-10 max-w-lg mx-auto">
+        <section className="px-5 mt-10 max-w-xl mx-auto">
 
-            <form onSubmit={submitForm} className="w-full">
-                <fieldset className="flex flex-col items-center ">
-
-                    <StarRating rating={rating} handleClickRating={handleClickRating}/>
-
-                    <div className="block w-full my-4">
-                        <textarea
-                            rows="5"
-                            className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-green-600 focus:outline-green-800"
-                            placeholder="Write your thoughts here..."
-                            value={review}
-                            onChange={handleTextChange}
-                        />
-                    </div>
-
-                    {reviewErrors && <p className="text-red-500 text-xs mt-1">{reviewErrors}</p>}
-
-                    <div className="block w-full">
-                        <Button name="submit" />
-                    </div>
-
-                </fieldset>
-            </form>
-
+            { isLoading
+                ? <Spinner />
+                :  <>
+                        <div className="my-6">
+                            <p className="text-xl font-bold text-gray-800">Share Your Experience : {locationData.name}</p>
+                        </div>
+                        <form onSubmit={submitForm} className="w-full">
+                            <fieldset className="flex flex-col items-center ">
+            
+                                <div className="border shadow border-gray-300 p-5 rounded w-full">
+            
+                                    <div>
+                                        <p className="text-gray-600 font-bold text-sm mb-4">Select your rating</p>
+                                        <StarRating rating={rating} handleClickRating={handleClickRating}/>
+                                    </div>
+            
+                                    <div className="block w-full my-4">
+                                        <textarea
+                                            rows="5"
+                                            className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-green-600 focus:outline-green-700"
+                                            placeholder="Write your thoughts here..."
+                                            value={review}
+                                            onChange={handleTextChange}
+                                        />
+                                    </div>
+                                </div>
+                                {reviewErrors && <p className="text-red-500 text-xs mt-4">{reviewErrors}</p>}
+            
+                                <div className="block w-full">
+                                    <Button name="Post Review" />
+                                </div>
+            
+                            </fieldset>
+                        </form>
+                </>
+            
+            }
         </section>
     )
 }
