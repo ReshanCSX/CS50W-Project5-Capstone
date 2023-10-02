@@ -1,5 +1,6 @@
-import { useParams, useNavigate } from "react-router-dom"
+import { Navigate, useParams, useNavigate, useLoaderData } from "react-router-dom"
 import { API } from "../../api"
+import updateAuthToken from "../../auth/updateAuthStatus"
 
 import Button from "../Button"
 import StarRating from "./StarRating"
@@ -15,6 +16,15 @@ export default function AddReviewPage(){
     const [rating, setRating] = useState(0)
     const [review, setReview] = useState("")
     const [reviewErrors, setReviewErrors] = useState("")
+
+    // Check if the user authenticated
+    const data = useLoaderData()
+
+    if (!data) {
+      return <Navigate to={'/login?next=location/' + LocationId}/>
+    } else {
+        updateAuthToken()
+    }
 
 
     useEffect(()=> {
@@ -65,8 +75,8 @@ export default function AddReviewPage(){
         try{
             const response = await API.post(`write/${LocationId}`, body)
 
-            if (response.status === 200) {
-                navigate(`location/` + LocationId)
+            if (response.status === 201) {
+                navigate(`/location/` + LocationId)
               }
 
         }
