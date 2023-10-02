@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { useParams } from "react-router-dom"
+import { useParams, useNavigate } from "react-router-dom"
 import { API } from "../../api"
 import { generateStars } from "../util"
 
@@ -20,8 +20,7 @@ export default function ViewLocation(){
 
     const [locationData, setLocationData] = useState(INITIAL_STATE)
     const [isLoading, setIsLoading] = useState(true)
-
-    console.log(locationData)
+    const navigate = useNavigate()
 
     useEffect(() => {
 
@@ -128,7 +127,7 @@ export default function ViewLocation(){
 
                                         {/* <div className="text-sm text-gray-500 mb-5">What did you think of your meal at {locationData.name}? Be the first to write a review and help other diners decide if it's the right place for them.</div> */}
 
-                                        <button className="w-full rounded py-2.5 my-3 font-semibold bg-green-600 hover:bg-green-700 text-white focus:outline-green-700">Write a review</button>
+                                        <button className="w-full rounded py-2.5 my-3 font-semibold bg-green-600 hover:bg-green-700 text-white focus:outline-green-700" onClick={() => navigate('/write/' + LocationId)}>Write a review</button>
                                     </Block>
                                 </div>
                             </div>

@@ -7,6 +7,7 @@ from rest_framework.response import Response
 from rest_framework import status, generics
 from rest_framework.decorators import permission_classes, authentication_classes
 from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 
 @permission_classes([AllowAny])
@@ -75,8 +76,7 @@ class PlaceDetailsView(generics.RetrieveAPIView):
     lookup_field = 'id'
 
 
-@permission_classes([AllowAny])
-@authentication_classes([])
+@permission_classes([IsAuthenticated])
 class SubmitReviewView(generics.CreateAPIView):
 
     serializer_class = CreateReviewSerializer

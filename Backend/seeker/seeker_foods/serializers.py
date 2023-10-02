@@ -84,5 +84,23 @@ class CreateReviewSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Review
-        fields = ('__all__')
-    
+        exclude = ('reviewer', 'location')
+
+
+    def create(self, validated_data):
+
+        request = self.context.get('request')
+        location_id = self.context.get('view').kwargs['id']
+
+        reviewer =  User.objects.get(username=request.user)
+        location = Restaurant.objects.get(id=location_id)
+
+        review = Review(
+            reviewer=reviewer,
+            location=location,
+            **validated_data
+        )
+
+        review.save()
+        
+        return review

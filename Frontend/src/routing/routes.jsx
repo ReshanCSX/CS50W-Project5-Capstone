@@ -47,6 +47,7 @@ export const ROUTES = createBrowserRouter([
       },
       {
         path: "/write/:LocationId",
+        loader: useAuthStatus,
         element: <AddReviewPage />
       },
     ],
