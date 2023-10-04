@@ -1,11 +1,11 @@
 import { Navigate, useParams, useNavigate, useLoaderData } from "react-router-dom"
 import { API } from "../../api"
-import updateAuthToken from "../../auth/updateAuthStatus"
 
 import Button from "../Button"
 import StarRating from "./StarRating"
 import { useEffect, useState } from "react"
 import Spinner from "../Spinner"
+import { useAuth } from "../../auth/AuthContext"
 
 export default function AddReviewPage(){
 
@@ -18,12 +18,11 @@ export default function AddReviewPage(){
     const [reviewErrors, setReviewErrors] = useState("")
 
     // Check if the user authenticated
-    const data = useLoaderData()
+    const checkAuth = useLoaderData()
+    const [isAuth, setIsAuth] = useAuth()
 
-    if (!data) {
-      return <Navigate to={'/login?next=location/' + LocationId}/>
-    } else {
-        updateAuthToken()
+    if (!checkAuth) {
+      return <Navigate to={'/login?next=write/' + LocationId}/>
     }
 
 
@@ -75,9 +74,12 @@ export default function AddReviewPage(){
         try{
             const response = await API.post(`write/${LocationId}`, body)
 
-            if (response.status === 201) {
+            if(response.status === 401){
+                setIsAuth(false)
+            }
+            else if (response.status === 201) {
                 navigate(`/location/` + LocationId)
-              }
+            }
 
         }
         catch(error){

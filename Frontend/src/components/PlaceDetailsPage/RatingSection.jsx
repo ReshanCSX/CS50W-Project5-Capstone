@@ -14,8 +14,6 @@ const RatingSection = (props) => {
                 const ratingObject = eachRating.find(item => item.rating === rating)
                 const count = ratingObject ? ratingObject.count : 0
 
-                console.log(count)
-
                 return (
                     <div key={rating} className="w-full grid grid-cols-12 my-3 gap-5 items-center">
                         <span className="col-span-3 lg:col-span-2">{labelList[rating]}</span>

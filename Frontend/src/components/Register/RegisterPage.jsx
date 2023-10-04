@@ -7,9 +7,10 @@ import Button from "../Button"
 
 export default function Register(){
 
-    const data = useLoaderData()
+    const checkAuth = useLoaderData()
+    const [isAuth, setIsAuth] = useAuth()
 
-    if (!!data) {
+    if (checkAuth) {
       return <Navigate to='/' />
     }
 
@@ -37,6 +38,7 @@ export default function Register(){
         try{
             const response = await API.post('/register', data)
             localStorage.setItem('authTokens', JSON.stringify(response.data.token))
+            setIsAuth(true)
             setCredentialsErrors(INITIAL_STATE)
             setCredentials(INITIAL_STATE)
             navigate("/")

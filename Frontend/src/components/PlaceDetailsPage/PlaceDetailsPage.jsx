@@ -6,7 +6,6 @@ import { generateStars } from "../util"
 import Spinner from "../Spinner"
 import Block from "./Block"
 import InfoLine from "./InfoLine"
-import ProgressBar from "./PrograssBar"
 import Review from "./ReviewBlock"
 import RatingSection from "./RatingSection"
 
@@ -51,8 +50,6 @@ export default function ViewLocation(){
                 setLocationData(loadLocationData)
                 setReviewCount(loadLocationData.reviews.length)
                 setIsLoading(false)
-
-                console.log(loadLocationData)
 
             }
             catch(error){

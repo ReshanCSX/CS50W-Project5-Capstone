@@ -1,19 +1,19 @@
 import { useState } from "react"
-import { useLoaderData, Navigate } from 'react-router-dom'
+import { Navigate, useLoaderData } from 'react-router-dom'
 import TextField from "../TextField"
 import Button from "../Button"
 import { API } from "../../api"
-import updateAuthToken from "../../auth/updateAuthStatus"
+import { useAuth } from "../../auth/AuthContext"
 
 export default function CreateListing(){
 
+    
     // Check if the user authenticated
-    const data = useLoaderData()
+    const checkAuth = useLoaderData()
+    const [isAuth, setIsAuth] = useAuth()
 
-    if (!data) {
+    if (!checkAuth) {
       return <Navigate to='/login?next=create' />
-    } else {
-        updateAuthToken()
     }
     
 
@@ -52,8 +52,11 @@ export default function CreateListing(){
 
             const response = await API.post('/createlisting', data,)
 
+            if(response.status === 401){
+                setIsAuth(false)
+            }
+
             console.log('Response data:', response.data)
-            
             setFormErrorData(INITIAL_STATE)
             setFormData(INITIAL_STATE)
         

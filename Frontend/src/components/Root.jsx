@@ -1,19 +1,37 @@
-import { Link, Outlet } from "react-router-dom";
+import { Outlet} from "react-router-dom";
 import Navbar from "./Navbar"
-import { useEffect } from "react";
-import axios from 'axios';
+import { AuthProvider, useProviderAuth } from "../auth/AuthContext";
 
+import { useEffect, useState } from "react";
 
 export default function App() {
 
+  const [isAuth, setIsAuth]  = useState(null)
+  const auth = useProviderAuth()
+
+  useEffect(() => {
+
+    const getAuth = async () => {
+
+      const response = await auth.isAuthed()
+      setIsAuth(response)
+
+    }
+
+    getAuth();
+  },[])
+
+
   return (
     <>
-      <header>
-        <Navbar />
-      </header>
-      <main>
-        <Outlet />
-      </main>
+    <AuthProvider value={[isAuth, setIsAuth]}>
+        <header>
+          <Navbar/>
+        </header>
+        <main>
+          <Outlet />
+        </main>
+      </AuthProvider>
     </>
   )
 }
