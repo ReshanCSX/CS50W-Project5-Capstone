@@ -1,30 +1,27 @@
 import { useEffect, useState } from "react"
 import { API } from "../api"
+import getAuthToken from "./getAuthToken"
 
 
-const getAuthToken = () => {
-    const authTokenString = localStorage.getItem('authTokens')
-    const authToken = authTokenString ? JSON.parse(authTokenString) : null
-    
-    return authToken
-}
-
-
-export default function updateAuthToken(){
+export default function useUpdateAuthToken(){
 
     const [authToken, setAuthToken] = useState(getAuthToken())
 
     const updateToken = async () => {
         try{
+
+            const currentAuthToken = getAuthToken()
+            
             const response = await API.post('token/refresh/', {
-                "refresh": authToken.refresh
+                "refresh": currentAuthToken.refresh
             })
+
 
             if (response.status === 200){
 
                 const newTokens = JSON.stringify(response.data)
-                localStorage.setItem('authTokens', newTokens);
-                setAuthToken(JSON.parse(newTokens))
+                localStorage.setItem('authTokens', newTokens)
+                setAuthToken(newTokens)
 
             } else {
                 console.log('Failed to refresh tokens. Response status:', response.status);
@@ -45,11 +42,12 @@ export default function updateAuthToken(){
         
         let interval = setInterval(() => {
             if(authToken){
-                setAuthToken(getAuthToken())
                 updateToken()
             }
         }, timeInterval)
 
         return () => clearInterval(interval)
-    },[4000])
+    },[authToken])
+
+    return { updateToken }
 }

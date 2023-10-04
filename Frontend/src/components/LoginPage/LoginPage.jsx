@@ -2,14 +2,16 @@ import TextField from "../TextField"
 import Button from "../Button"
 import { useState } from "react"
 import { API } from "../../api"
-import { useNavigate, useLocation, Navigate, useLoaderData, Link } from 'react-router-dom'
+import { useNavigate, useLocation, Navigate, Link, useLoaderData } from 'react-router-dom'
 import { getParams } from "../util"
+import { useAuth } from "../../auth/AuthContext"
 
 export default function Login(){
 
-    const data = useLoaderData()
+    const checkAuth = useLoaderData()
+    const [isAuth, setIsAuth] = useAuth()
 
-    if (!!data) {
+    if (checkAuth) {
       return <Navigate to='/' />
     }
 
@@ -36,7 +38,7 @@ export default function Login(){
             const response = await API.post('/token', data)
 
             localStorage.setItem('authTokens', JSON.stringify(response.data))
-
+            setIsAuth(true)
             console.log(localStorage.getItem('authTokens'))
 
             if(pageParam){

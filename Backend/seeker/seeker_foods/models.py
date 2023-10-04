@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User, AbstractUser
+from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator, MaxValueValidator
 
 class Restaurant(models.Model):
@@ -14,6 +14,13 @@ class Restaurant(models.Model):
 
     def __str__(self):
         return f"Restaurant {self.name}"
+    
+    def average_rating(self):
+        average =  self.restaurant_reviews.aggregate(models.Avg('rating'))['rating__avg']
+        return round(average, 2) if average else None
+    
+    def get_each_rating(self):
+        return self.restaurant_reviews.values('rating').annotate(count=models.Count('id'))
 
 
 class Profile(models.Model):
@@ -31,5 +38,8 @@ class Review(models.Model):
     content = models.CharField(max_length=1000, null=False, blank=False)
     timestamp = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        ordering = ['-timestamp']
+
     def __str__(self):
-        return f'{self.reviewer} wrote a review on {self.location}'
+        return f'{self.reviewer} wrote a {self.rating} review on {self.location}'

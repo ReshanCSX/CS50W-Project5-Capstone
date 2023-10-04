@@ -2,7 +2,7 @@ import { generateStars } from "../util"
 
 export default function Card(props){
 
-    const { id, name, city, country, handleCardClick } = props
+    const { id, name, location, handleCardClick, rating } = props
     
     return (
     <div className="shadow-md border rounded-md hover:cursor-pointer" onClick={() => handleCardClick(id)}>
@@ -13,14 +13,13 @@ export default function Card(props){
             <div className="">
                 <h1 className="text-lg font-bold text-slate-700">{name}</h1>
                 <div className="flex gap-1">
-                    <h2 className="text-sm text-gray-600">{city},</h2>
-                    <h2 className="text-sm text-gray-600">{country}</h2>
+                    <h2 className="text-sm text-gray-600">{location}</h2>
                 </div>
             </div>
             <div>
                 <h2 className="font-bold sm:mt-2 text-sm text-green-600 flex">
-                    {generateStars(3)}
-                    <span className="pl-2">{3}</span>
+                    {generateStars(rating)}
+                    <span className="pl-2">{rating || 0}</span>
                 </h2>
             </div>
         </div>

@@ -1,16 +1,19 @@
 from rest_framework import serializers
 from .models import Restaurant, User, Review
 from rest_framework_simplejwt.tokens import RefreshToken
+from django.contrib.humanize.templatetags.humanize import naturaltime
 
 
 class RestaurantSerializer(serializers.ModelSerializer):
 
     location = serializers.SerializerMethodField()
     reviews = serializers.SerializerMethodField()
+    rating = serializers.SerializerMethodField()
+    eachRating = serializers.SerializerMethodField()
 
     class Meta:
         model = Restaurant
-        fields = ('id', 'name', 'location', 'cuisine', 'phone_number', 'email', 'website', 'reviews')
+        fields = ('id', 'name', 'location', 'cuisine', 'rating', 'eachRating', 'phone_number', 'email', 'website', 'reviews')
 
     def get_location(self, object):
         location = object.city + "," + object.country
@@ -21,6 +24,12 @@ class RestaurantSerializer(serializers.ModelSerializer):
         reviews = ReviewSerializer(object.restaurant_reviews.all(), many=True)
 
         return reviews.data
+    
+    def get_rating(self, object):
+        return object.average_rating()
+    
+    def get_eachRating(self, object):
+        return object.get_each_rating()
 
 
 class CreateRestaurantSerializer(serializers.ModelSerializer):
@@ -71,6 +80,7 @@ class RegistrationSerializer(serializers.ModelSerializer):
 class ReviewSerializer(serializers.ModelSerializer):
 
     reviewer = serializers.SerializerMethodField()
+    timestamp = serializers.SerializerMethodField()
 
     class Meta:
         model = Review
@@ -78,6 +88,9 @@ class ReviewSerializer(serializers.ModelSerializer):
 
     def get_reviewer(self, object):
         return object.reviewer.username
+    
+    def get_timestamp(self, object):
+        return naturaltime(object.timestamp)
 
 
 class CreateReviewSerializer(serializers.ModelSerializer):
