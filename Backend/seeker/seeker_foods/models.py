@@ -11,7 +11,6 @@ class Restaurant(models.Model):
     email = models.EmailField(null=True, blank=True)
     website = models.URLField(null=True, blank=True)    
     
-
     def __str__(self):
         return f"Restaurant {self.name}"
     
@@ -29,11 +28,19 @@ class Profile(models.Model):
 
     def __str__(self):
         return f'{self.user.username}'
+    
+
+class Favorite(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="favorites")
+    favorites = models.ManyToManyField(Restaurant, related_name="bookmarked_users")
+
+    def __str__(self):
+        return f'{self.user.username}'
 
 
 class Review(models.Model):
     reviewer = models.ForeignKey(User, on_delete=models.CASCADE, related_name="given_reviews")
-    location = models.ForeignKey("Restaurant", on_delete=models.CASCADE, related_name="restaurant_reviews")
+    location = models.ForeignKey(Restaurant, on_delete=models.CASCADE, related_name="restaurant_reviews")
     rating = models.PositiveIntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
     content = models.CharField(max_length=1000, null=False, blank=False)
     timestamp = models.DateTimeField(auto_now_add=True)

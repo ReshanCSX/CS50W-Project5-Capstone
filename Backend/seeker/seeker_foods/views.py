@@ -1,6 +1,6 @@
 from django.shortcuts import render, HttpResponse
-from .serializers import RestaurantSerializer, CreateRestaurantSerializer, RegistrationSerializer, CreateReviewSerializer
-from .models import Restaurant, User, Review
+from .serializers import RestaurantSerializer, CreateRestaurantSerializer, RegistrationSerializer, CreateReviewSerializer, FavoriteSerializer
+from .models import Restaurant, Favorite, User, Review
 from django.db.models import Q
 
 from rest_framework.response import Response
@@ -68,7 +68,7 @@ class RegisterView(generics.CreateAPIView):
 
 
 @permission_classes([AllowAny])
-@authentication_classes([])
+@authentication_classes([JWTAuthentication])
 class PlaceDetailsView(generics.RetrieveAPIView):
 
     queryset = Restaurant.objects.all()
@@ -80,3 +80,9 @@ class PlaceDetailsView(generics.RetrieveAPIView):
 class SubmitReviewView(generics.CreateAPIView):
 
     serializer_class = CreateReviewSerializer
+
+
+@permission_classes([IsAuthenticated])
+class Favorites(generics.CreateAPIView):
+
+    serializer_class = FavoriteSerializer

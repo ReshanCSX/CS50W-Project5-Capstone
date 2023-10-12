@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Restaurant, User, Review
+from .models import Restaurant, User, Review, Favorite
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.humanize.templatetags.humanize import naturaltime
 
@@ -10,10 +10,11 @@ class RestaurantSerializer(serializers.ModelSerializer):
     reviews = serializers.SerializerMethodField()
     rating = serializers.SerializerMethodField()
     eachRating = serializers.SerializerMethodField()
+    is_favorited = serializers.SerializerMethodField()
 
     class Meta:
         model = Restaurant
-        fields = ('id', 'name', 'location', 'cuisine', 'rating', 'eachRating', 'phone_number', 'email', 'website', 'reviews')
+        fields = ('id', 'name', 'location', 'cuisine', 'rating', 'eachRating', 'phone_number', 'email', 'website', 'reviews', 'is_favorited')
 
     def get_location(self, object):
         location = object.city + "," + object.country
@@ -30,6 +31,19 @@ class RestaurantSerializer(serializers.ModelSerializer):
     
     def get_eachRating(self, object):
         return object.get_each_rating()
+    
+    def get_is_favorited(self, object):
+
+        request = self.context.get('request')
+
+        if request and bool(request.user and request.user.is_authenticated):
+            
+            if(object.bookmarked_users.filter(user=request.user.id)):
+                return True
+            else:
+                return False
+        else:
+            return None
 
 
 class CreateRestaurantSerializer(serializers.ModelSerializer):
@@ -117,3 +131,25 @@ class CreateReviewSerializer(serializers.ModelSerializer):
         review.save()
         
         return review
+    
+
+class FavoriteSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Favorite
+        fields = ('user',)
+
+    def create(self, validated_data):
+
+        request = self.context.get('request')
+        location_id = self.context.get('view').kwargs['location']
+
+        request_user =  User.objects.get(username=request.user)
+        location = Restaurant.objects.get(id=location_id)
+
+        favorite = Favorite(
+            user = request_user,
+            favorites = location
+        )
+
+        return favorite
