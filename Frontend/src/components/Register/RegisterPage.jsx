@@ -4,6 +4,7 @@ import { useNavigate, Link, Navigate, useLoaderData } from "react-router-dom"
 import TextField from "../TextField"
 import { API } from "../../api"
 import Button from "../Button"
+import { useAuth } from "../../auth/AuthContext"
 
 export default function Register(){
 
