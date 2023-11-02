@@ -68,7 +68,7 @@ class RegisterView(generics.CreateAPIView):
 
 
 @permission_classes([AllowAny])
-@authentication_classes([JWTAuthentication])
+@authentication_classes([])
 class PlaceDetailsView(generics.RetrieveAPIView):
 
     queryset = Restaurant.objects.all()
