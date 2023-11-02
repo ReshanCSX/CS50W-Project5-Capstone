@@ -8,13 +8,14 @@ import Block from "./Block"
 import InfoLine from "./InfoLine"
 import Review from "./ReviewBlock"
 import RatingSection from "./RatingSection"
+import Favorite from "./Favorite"
 
 export default function ViewLocation(){
 
     const { LocationId } = useParams()
 
     const INITIAL_STATE = {
-        details : {name:'', cuisine: '', rating: 0, eachRating:[]},
+        details : {name:'', cuisine: '', rating: 0, eachRating:[], is_favorited: null},
         contacts:{location: null, email: null, phone_number: null, website: null},
         reviews:[]
     }
@@ -31,12 +32,14 @@ export default function ViewLocation(){
             try{
                 const response = await API.get(`location/${LocationId}`)
 
+
                 const loadLocationData = {
                     details: {
                         name: response.data.name,
                         cuisine: response.data.cuisine,
                         rating: response.data.rating,
-                        eachRating: response.data.eachRating
+                        eachRating: response.data.eachRating,
+                        is_favorited : response.data.is_favorited
                     },
                     contacts: {
                         location: response.data.location,
@@ -61,6 +64,35 @@ export default function ViewLocation(){
 
     },[])
 
+    const handle_favorite = () => {
+        setLocationData(prev => ({...prev, 
+            
+            details : {
+                ...prev.details,
+                is_favorited: !prev.details.is_favorited
+        }
+        
+        }))
+    }
+
+    useEffect(() => {
+        const changeFavoriteState = async () => {
+            try{
+
+                const data = {favorites : LocationId}
+                const response = await API.put('favorites', data)
+
+                console.log(response)
+            }
+            catch(error){
+                console.log(error)
+            }
+        }
+
+        changeFavoriteState()
+
+    },[locationData.details.is_favorited])
+
     const starRating = generateStars(locationData.details.rating, 18)
     const contactDetails = Object.entries(locationData.contacts).map(([key, value]) => value && <InfoLine key={key} name={key} info={value}/>)
 
@@ -75,7 +107,10 @@ export default function ViewLocation(){
                     <div className="md:w-11/12">
 
                         <div className="mb-5 flex flex-col gap-2">
-                            <h1 className="text-2xl font-bold text-gray-800">{locationData.details.name}</h1>
+                            <div className="flex items-center gap-2 text-red-600">
+                                <h1 className="text-2xl font-bold text-gray-800">{locationData.details.name}</h1>
+                                {!(locationData.details.is_favorited === null) && <Favorite is_favorited={locationData.details.is_favorited} handle_favorite={handle_favorite}/>}
+                            </div>
                             <p className="text-sm text-gray-600 font-semibold">{locationData.details.cuisine}</p>
                         </div>
 

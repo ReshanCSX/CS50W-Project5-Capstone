@@ -68,7 +68,7 @@ class RegisterView(generics.CreateAPIView):
 
 
 @permission_classes([AllowAny])
-@authentication_classes([JWTAuthentication])
+@authentication_classes([])
 class PlaceDetailsView(generics.RetrieveAPIView):
 
     queryset = Restaurant.objects.all()
@@ -83,6 +83,9 @@ class SubmitReviewView(generics.CreateAPIView):
 
 
 @permission_classes([IsAuthenticated])
-class Favorites(generics.CreateAPIView):
+class Favorites(generics.UpdateAPIView):
 
+    queryset = Favorite.objects.all()
     serializer_class = FavoriteSerializer
+
+

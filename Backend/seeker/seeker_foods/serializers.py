@@ -137,19 +137,20 @@ class FavoriteSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Favorite
-        fields = ('user',)
+        fields = ('favorites',)
 
-    def create(self, validated_data):
+    def update(self, validated_data):
 
-        request = self.context.get('request')
-        location_id = self.context.get('view').kwargs['location']
+        location = validated_data['favorites']
+        user = self.request.user
 
-        request_user =  User.objects.get(username=request.user)
-        location = Restaurant.objects.get(id=location_id)
+        user_inst = Favorite.objects.get(username=user)
 
-        favorite = Favorite(
-            user = request_user,
-            favorites = location
-        )
+        if location in user_inst.favorites.all():
+            user_inst.favorites.remove(location)
+        else:
+            user_inst.favorites.add(location)
 
-        return favorite
+        user_inst.save()
+        
+        return user_inst

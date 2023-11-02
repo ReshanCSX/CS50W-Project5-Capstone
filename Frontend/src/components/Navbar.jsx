@@ -7,7 +7,8 @@ export default function Navbar(){
   const [isAuthed, setIsAuth] = useAuth()
   const navigate = useNavigate()
 
-  const menuItems = [{"Login" : "login"}, {"Sign up" : "register"}]
+  const notAuthedMenu = [{"Login" : "login"}, {"Sign up" : "register"}]
+  const authedMenu = [{"Add missing place" : "create"}]
 
   function logout(){
     localStorage.removeItem('authTokens')
@@ -23,9 +24,20 @@ export default function Navbar(){
       <div>
         {
           isAuthed
-            ? <a onClick={() => logout()} className="pl-5 text-white hover:text-green-200 cursor-pointer">Log Out</a>
+            ? <>
+                  {
+                    authedMenu.map((item, index) => {
+                      const key = Object.keys(item)[0]
+                      const value = Object.values(item)[0]
 
-            : menuItems.map((item, index) => {
+                      return <Link key={index} to={value} className="pl-5 text-white hover:text-green-200">{key}</Link>
+                    })
+                    
+                  }
+                  <a onClick={() => logout()} className="pl-5 text-white hover:text-green-200 cursor-pointer">Log Out</a>
+              </>
+
+            : notAuthedMenu.map((item, index) => {
               const key = Object.keys(item)[0]
               const value = Object.values(item)[0]
 

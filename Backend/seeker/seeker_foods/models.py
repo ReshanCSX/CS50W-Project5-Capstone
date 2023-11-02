@@ -31,8 +31,8 @@ class Profile(models.Model):
     
 
 class Favorite(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="favorites")
-    favorites = models.ManyToManyField(Restaurant, related_name="bookmarked_users")
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="favorites")
+    favorites = models.ManyToManyField(Restaurant, related_name="bookmarked_users", blank=True)
 
     def __str__(self):
         return f'{self.user.username}'
