@@ -75,23 +75,23 @@ export default function ViewLocation(){
         }))
     }
 
-    useEffect(() => {
-        const changeFavoriteState = async () => {
-            try{
+    // useEffect(() => {
+    //     const changeFavoriteState = async () => {
+    //         try{
 
-                const data = {favorites : LocationId}
-                const response = await API.put('favorites', data)
+    //             const data = {favorites : LocationId}
+    //             const response = await API.put('favorites', data)
 
-                console.log(response)
-            }
-            catch(error){
-                console.log(error)
-            }
-        }
+    //             console.log(response)
+    //         }
+    //         catch(error){
+    //             console.log(error)
+    //         }
+    //     }
 
-        changeFavoriteState()
+    //     changeFavoriteState()
 
-    },[locationData.details.is_favorited])
+    // },[locationData.details.is_favorited])
 
     const starRating = generateStars(locationData.details.rating, 18)
     const contactDetails = Object.entries(locationData.contacts).map(([key, value]) => value && <InfoLine key={key} name={key} info={value}/>)
