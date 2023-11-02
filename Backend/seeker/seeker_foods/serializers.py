@@ -27,7 +27,7 @@ class RestaurantSerializer(serializers.ModelSerializer):
         return reviews.data
     
     def get_rating(self, object):
-        return object.average_rating()
+        return round(object.average_rating(), 1) if object.average_rating() else 0
     
     def get_eachRating(self, object):
         return object.get_each_rating()
