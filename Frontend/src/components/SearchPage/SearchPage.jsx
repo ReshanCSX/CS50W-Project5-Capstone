@@ -12,6 +12,7 @@ export default function Search(){
   const [cardInfo, setCardInfo] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [searchQuary, setSearchQuary] = useState("")
+  const [searchedQ, setSearchedQ] = useState(searchParam)
   const navigate = useNavigate()
 
   
@@ -48,6 +49,7 @@ export default function Search(){
       setIsLoading(true)
       const response = await API.get(`/search?q=${searchQuary}`)
       setCardInfo(response.data)
+      setSearchedQ(searchQuary)
       setIsLoading(false)
 
     } catch(error){
@@ -65,7 +67,7 @@ export default function Search(){
           <h1 className="text-green-600 text-2xl font-bold mb-3">
             {searchParam 
 
-              ? `Results matching "${searchParam}"`
+              ? `Results matching "${searchedQ}"`
               : "We need more information to help you. What are you looking for?"
               
               }
