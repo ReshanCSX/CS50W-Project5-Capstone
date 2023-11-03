@@ -49,7 +49,7 @@ class RestaurantSerializer(serializers.ModelSerializer):
 class CreateRestaurantSerializer(serializers.ModelSerializer):
     class Meta:
         model = Restaurant
-        fields = ('name', 'cuisine', 'city', 'country', 'phone_number', 'email', 'website')
+        fields = ('id', 'name', 'cuisine', 'city', 'country', 'phone_number', 'email', 'website')
 
 
 class RegistrationSerializer(serializers.ModelSerializer):

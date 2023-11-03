@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Navigate, useLoaderData } from 'react-router-dom'
+import { Navigate, useLoaderData, useNavigate } from 'react-router-dom'
 import TextField from "../TextField"
 import Button from "../Button"
 import { API } from "../../api"
@@ -29,6 +29,7 @@ export default function CreateListing(){
 
     const [formData, setFormData] = useState(INITIAL_STATE)
     const [formErrorData, setFormErrorData ] = useState(INITIAL_STATE)
+    const navigate = useNavigate()
 
     const handleChange = (event) => {
         const {name, value} = event.target
@@ -59,6 +60,7 @@ export default function CreateListing(){
             console.log('Response data:', response.data)
             setFormErrorData(INITIAL_STATE)
             setFormData(INITIAL_STATE)
+            navigate(`/location/${response.data.id}`)
         
         }
         catch(errors){
