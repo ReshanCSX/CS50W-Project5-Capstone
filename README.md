@@ -8,6 +8,9 @@ So, I have developed this web application with passionate restaurant reviewers a
 
 To develop my web application, I have used Django, as well as, thought myself React, and Tailwind CSS.
 
+## Project Preview
+[Project Demostration Video](https://youtu.be/VAgl5o2VsWQ)
+
 ## Distinctiveness and Complexity
 
 > Your web application must be sufficiently distinct from the other projects in this course (and, in addition, may not be based on the old CS50W Pizza project), and more complex than those.
